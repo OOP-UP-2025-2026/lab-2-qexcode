@@ -1,46 +1,73 @@
 package ua.opnu;
 
-
 public class TimeSpan {
+    private int hours;
+    private int minutes;
 
-    // TODO: add class fields
-
+    // Конструктор
     TimeSpan(int hours, int minutes) {
-        // TODO: write constructor body
+        if (hours < 0 || minutes < 0 || minutes > 59) {
+            this.hours = 0;
+            this.minutes = 0;
+        } else {
+            this.hours = hours;
+            this.minutes = minutes;
+        }
     }
 
     int getHours() {
-        return 0;
+        return hours;
     }
 
     int getMinutes() {
-        // TODO: write method body
-        return 0;
+        return minutes;
     }
 
     void add(int hours, int minutes) {
-        // TODO: write method body
+        if (hours < 0 || minutes < 0 || minutes > 59) return;
+
+        this.hours += hours;
+        this.minutes += minutes;
+
+        if (this.minutes >= 60) {
+            this.hours += this.minutes / 60;
+            this.minutes = this.minutes % 60;
+        }
     }
 
     void addTimeSpan(TimeSpan timespan) {
-        // TODO: write method body
+        add(timespan.getHours(), timespan.getMinutes());
     }
 
     double getTotalHours() {
-        // TODO: write method body
-        return 0;
+        return hours + minutes / 60.0;
     }
 
     int getTotalMinutes() {
-        // TODO: write method body
-        return 0;
+        return hours * 60 + minutes;
     }
 
     void subtract(TimeSpan span) {
-        // TODO: write method body
+        int total1 = getTotalMinutes();
+        int total2 = span.getTotalMinutes();
+
+        if (total2 > total1) return;
+
+        int diff = total1 - total2;
+        hours = diff / 60;
+        minutes = diff % 60;
     }
 
     void scale(int factor) {
-        // TODO: write method body
+        if (factor <= 0) return;
+
+        int total = getTotalMinutes() * factor;
+        hours = total / 60;
+        minutes = total % 60;
+    }
+
+    @Override
+    public String toString() {
+        return hours + "h " + minutes + "m";
     }
 }
